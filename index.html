@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Shift Swap Widget</title>
+<title>Shift Overview Widget</title>
 <style>
     body {
         font-family: Arial, sans-serif;
         background: #f6f7f8;
         padding: 20px;
     }
+
     .widget {
         width: 420px;
         padding: 20px;
@@ -17,9 +18,11 @@
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
+
     h2 {
         margin-bottom: 10px;
     }
+
     .shift {
         border: 1px solid #ddd;
         padding: 12px;
@@ -29,6 +32,7 @@
         justify-content: space-between;
         align-items: center;
     }
+
     button {
         padding: 8px 12px;
         border-radius: 6px;
@@ -38,10 +42,38 @@
         color: white;
         transition: 0.2s;
     }
+
     button:hover {
         background: #00468a;
     }
 
+    /* Calendar toggle */
+    .calendar-toggle {
+        margin: 10px 0;
+        padding: 10px;
+        background: #e8f0fe;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .calendar {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        background: #fafafa;
+        border: 1px solid #ddd;
+    }
+
+    .calendar-day {
+        padding: 8px;
+        margin-bottom: 6px;
+        border-left: 4px solid #005eb8;
+        background: white;
+        border-radius: 6px;
+    }
+
+    /* Modal */
     .modal {
         display: none;
         position: fixed;
@@ -66,8 +98,24 @@
 <body>
 
 <div class="widget">
-    <h2>Clinician Shift Overview</h2>
+    <h2>Shift Overview</h2>
 
+    <!-- Expandable Calendar View -->
+    <div class="calendar-toggle" onclick="toggleCalendar()">
+        📅 Show / Hide Calendar View
+    </div>
+
+    <div id="calendar" class="calendar">
+        <div class="calendar-day"><strong>Mon 12</strong> — Morning Shift (07:00–15:00)</div>
+        <div class="calendar-day"><strong>Tue 13</strong> — Evening Shift (15:00–23:00)</div>
+        <div class="calendar-day"><strong>Wed 14</strong> — Night Shift (23:00–07:00)</div>
+        <div class="calendar-day"><strong>Thu 15</strong> — Morning Shift (07:00–15:00)</div>
+        <div class="calendar-day"><strong>Fri 16</strong> — Evening Shift (15:00–23:00)</div>
+    </div>
+
+    <hr style="margin: 20px 0;">
+
+    <!-- Main Shift List -->
     <div class="shift">
         <div>
             <strong>Morning Shift</strong><br>
@@ -115,6 +163,13 @@
 <script>
 let chosenShift = "";
 
+// Toggle calendar expandable view
+function toggleCalendar() {
+    const cal = document.getElementById("calendar");
+    cal.style.display = cal.style.display === "block" ? "none" : "block";
+}
+
+// Modal logic
 function openSwapModal(shiftName) {
     chosenShift = shiftName;
     document.getElementById("selectedShift").innerHTML =
@@ -127,7 +182,7 @@ function closeSwapModal() {
     document.getElementById("swapModal").style.display = "none";
 }
 
-// --- API Call ----------------------------------------------------
+// API Call
 async function sendSwapRequest() {
     const colleague = document.getElementById("colleague").value;
 
