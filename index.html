@@ -3,74 +3,138 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Shift Overview Widget</title>
+<title>Shift Overview</title>
+
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: #f6f7f8;
         padding: 20px;
     }
 
     .widget {
         width: 420px;
+        margin: auto;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         padding: 20px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
-    h2 {
-        margin-bottom: 10px;
+    /* Header */
+    .date-range {
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
     }
 
-    .shift {
-        border: 1px solid #ddd;
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 10px;
+    .week-days {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        margin-bottom: 15px;
+        font-size: 13px;
+        color: #777;
     }
 
-    button {
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: none;
+    .week-days div {
+        width: 40px;
+        text-align: center;
+        padding: 6px 0;
+        border-radius: 8px;
         cursor: pointer;
+    }
+
+    .week-days .active {
         background: #005eb8;
         color: white;
-        transition: 0.2s;
+        font-weight: 600;
     }
 
-    button:hover {
+    .nav-arrows {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #777;
+        cursor: pointer;
+        font-size: 18px;
+        user-select: none;
+    }
+
+    /* Summary */
+    .summary {
+        text-align: center;
+        margin: 15px 0;
+        font-weight: 600;
+        color: #444;
+    }
+
+    /* Daily section */
+    .day-label {
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .shift-card {
+        background: white;
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        border-left: 4px solid #5c4cff;
+        margin-bottom: 12px;
+    }
+
+    .shift-time {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+
+    .shift-details {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 3px;
+    }
+
+    .shift-meta {
+        text-align: right;
+        font-size: 13px;
+        color: #777;
+        margin-top: 5px;
+    }
+
+    .swap-btn {
+        margin-top: 10px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        background: #005eb8;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .swap-btn:hover {
         background: #00468a;
     }
 
-    /* Calendar toggle */
-    .calendar-toggle {
-        margin: 10px 0;
-        padding: 10px;
-        background: #e8f0fe;
-        border-radius: 8px;
+    /* Floating button */
+    .fab {
+        width: 50px;
+        height: 50px;
+        background: #4caf50;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 28px;
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
         cursor: pointer;
-    }
-
-    .calendar {
-        display: none;
-        margin-top: 10px;
-        padding: 10px;
-        border-radius: 8px;
-        background: #fafafa;
-        border: 1px solid #ddd;
-    }
-
-    .calendar-day {
-        padding: 8px;
-        margin-bottom: 6px;
-        border-left: 4px solid #005eb8;
-        background: white;
-        border-radius: 6px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
 
     /* Modal */
@@ -82,12 +146,14 @@
         justify-content: center;
         align-items: center;
     }
+
     .modal-content {
         background: white;
         padding: 20px;
         width: 350px;
-        border-radius: 10px;
+        border-radius: 12px;
     }
+
     .close {
         float: right;
         cursor: pointer;
@@ -95,51 +161,69 @@
     }
 </style>
 </head>
+
 <body>
 
 <div class="widget">
-    <h2>Shift Overview</h2>
 
-    <!-- Expandable Calendar View -->
-    <div class="calendar-toggle" onclick="toggleCalendar()">
-        📅 Show / Hide Calendar View
+    <h2 style="margin-bottom: 5px;">Shift Overview</h2>
+
+    <div class="date-range">Oct 21 – Oct 27, 2019</div>
+
+    <div class="nav-arrows">
+        <span>&lt;</span>
+        <span>&gt;</span>
     </div>
 
-    <div id="calendar" class="calendar">
-        <div class="calendar-day"><strong>Mon 12</strong> — Morning Shift (07:00–15:00)</div>
-        <div class="calendar-day"><strong>Tue 13</strong> — Evening Shift (15:00–23:00)</div>
-        <div class="calendar-day"><strong>Wed 14</strong> — Night Shift (23:00–07:00)</div>
-        <div class="calendar-day"><strong>Thu 15</strong> — Morning Shift (07:00–15:00)</div>
-        <div class="calendar-day"><strong>Fri 16</strong> — Evening Shift (15:00–23:00)</div>
+    <div class="week-days">
+        <div>Mo<br>21</div>
+        <div class="active">Tu<br>22</div>
+        <div>We<br>23</div>
+        <div>Th<br>24</div>
+        <div>Fr<br>25</div>
+        <div>Sa<br>26</div>
+        <div>Su<br>27</div>
     </div>
 
-    <hr style="margin: 20px 0;">
+    <div class="summary">30 hrs / $285</div>
 
-    <!-- Main Shift List -->
-    <div class="shift">
-        <div>
-            <strong>Morning Shift</strong><br>
-            07:00 – 15:00
-        </div>
-        <button onclick="openSwapModal('Morning Shift')">Swap</button>
+    <!-- Tue -->
+    <div class="day-label">Tue, Oct 22</div>
+    <div class="shift-card">
+        <div class="shift-time">10am – 5:30pm</div>
+        <div class="shift-details">Ben Bartling · Surf Instructor</div>
+        <div class="shift-details">Wailea Beach</div>
+        <div class="shift-meta">7.5 hrs / $71.25</div>
+
+        <button class="swap-btn" onclick="openSwapModal('10am – 5:30pm')">Request Swap</button>
     </div>
 
-    <div class="shift">
-        <div>
-            <strong>Evening Shift</strong><br>
-            15:00 – 23:00
-        </div>
-        <button onclick="openSwapModal('Evening Shift')">Swap</button>
+    <!-- Wed -->
+    <div class="day-label">Wed, Oct 23</div>
+    <div class="shift-card">
+        <div class="shift-time">10am – 5:30pm</div>
+        <div class="shift-details">Ben Bartling · Beach Rentals</div>
+        <div class="shift-details">Hanalei Beach</div>
+        <div class="shift-meta">7.5 hrs / $71.25</div>
+
+        <button class="swap-btn" onclick="openSwapModal('10am – 5:30pm')">Request Swap</button>
     </div>
 
-    <div class="shift">
-        <div>
-            <strong>Night Shift</strong><br>
-            23:00 – 07:00
-        </div>
-        <button onclick="openSwapModal('Night Shift')">Swap</button>
+    <!-- Thu -->
+    <div class="day-label">Thu, Oct 24</div>
+    <div class="shift-card">
+        <div class="shift-time">10am – 5:30pm</div>
+        <div class="shift-details">Ben Bartling · Surf Instructor</div>
+        <div class="shift-details">Wailea Beach</div>
+        <div class="shift-meta">7.5 hrs / $71.25</div>
+
+        <button class="swap-btn" onclick="openSwapModal('10am – 5:30pm')">Request Swap</button>
     </div>
+
 </div>
+
+<!-- Floating add button -->
+<div class="fab">+</div>
 
 <!-- Modal -->
 <div id="swapModal" class="modal">
@@ -156,25 +240,17 @@
         </select>
 
         <br><br>
-        <button onclick="sendSwapRequest()">Send Request</button>
+        <button class="swap-btn" onclick="sendSwapRequest()">Send Request</button>
     </div>
 </div>
 
 <script>
 let chosenShift = "";
 
-// Toggle calendar expandable view
-function toggleCalendar() {
-    const cal = document.getElementById("calendar");
-    cal.style.display = cal.style.display === "block" ? "none" : "block";
-}
-
-// Modal logic
-function openSwapModal(shiftName) {
-    chosenShift = shiftName;
+function openSwapModal(shift) {
+    chosenShift = shift;
     document.getElementById("selectedShift").innerHTML =
-        "<strong>Shift:</strong> " + shiftName;
-
+        "<strong>Shift:</strong> " + shift;
     document.getElementById("swapModal").style.display = "flex";
 }
 
@@ -182,7 +258,7 @@ function closeSwapModal() {
     document.getElementById("swapModal").style.display = "none";
 }
 
-// API Call
+// API call
 async function sendSwapRequest() {
     const colleague = document.getElementById("colleague").value;
 
@@ -193,22 +269,17 @@ async function sendSwapRequest() {
             "en_US": { "text": `New Shift Swap Requested: ${chosenShift} → ${colleague}` },
             "de_DE": { "text": `New Shift Swap Requested: ${chosenShift} → ${colleague}` }
         },
-        "icon": {
-            "en_US": { "type": "font", "char": "" },
-            "de_DE": { "type": "font", "char": "" }
-        },
+        "icon": { "en_US": {"type":"font","char":""}, "de_DE": {"type":"font","char":""} },
         "image": {
             "en_US": {
-                "type": "image",
-                "href": "https://i.pinimg.com/474x/66/9b/d7/669bd7e734f2e0615d94fb1af77cc6aa.jpg",
-                "width": 600,
-                "height": 400
+                "type":"image",
+                "href":"https://i.pinimg.com/474x/66/9b/d7/669bd7e734f2e0615d94fb1af77cc6aa.jpg",
+                "width":600,"height":400
             },
             "de_DE": {
-                "type": "image",
-                "href": "https://i.pinimg.com/474x/66/9b/d7/669bd7e734f2e0615d94fb1af77cc6aa.jpg",
-                "width": 600,
-                "height": 400
+                "type":"image",
+                "href":"https://i.pinimg.com/474x/66/9b/d7/669bd7e734f2e0615d94fb1af77cc6aa.jpg",
+                "width":600,"height":400
             }
         },
         "link": "https://app.staffbase.com/content/page/6914e3ecd5cde774c74364f1"
@@ -224,15 +295,8 @@ async function sendSwapRequest() {
             body: JSON.stringify(payload)
         });
 
-        if (res.ok) {
-            alert("Shift swap request sent!");
-        } else {
-            alert("Error sending request. Check console.");
-            console.error(await res.text());
-        }
-
-    } catch (err) {
-        console.error(err);
+        alert(res.ok ? "Shift swap request sent!" : "Error sending request.");
+    } catch (e) {
         alert("Network error.");
     }
 
