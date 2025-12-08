@@ -13,7 +13,7 @@
 
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #f6f7f8;
+        background: #58108b;
         padding: 0;
         margin: 0;
     }
@@ -62,7 +62,7 @@
     }
 
     .week-days .active {
-        background: #005eb8;
+        background: #58108b;
         color: white;
         font-weight: 600;
     }
@@ -91,7 +91,7 @@
         padding: 14px;
         border-radius: 12px;
         box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-        border-left: 4px solid #5c4cff;
+        border-left: 4px solid #58108b;
         margin-bottom: 16px;
     }
 
@@ -120,7 +120,7 @@
         padding: 12px 14px;              /* Increased */
         font-size: 15px;                 /* Increased */
         border-radius: 8px;              /* Slightly larger */
-        background: #005eb8;
+        background: #58108b;
         color: white;
         border: none;
         cursor: pointer;
@@ -164,7 +164,7 @@
 
     <h2 style="margin-bottom: 2px; text-align:center;">Shift Overview</h2>
 
-    <div class="date-range">Nov 24 – Nov 30, 2025</div>
+    <div class="date-range">Dec 8 – Dec 14, 2025</div>
 
     <div class="nav-arrows">
         <span>&lt;</span>
@@ -172,19 +172,19 @@
     </div>
 
     <div class="week-days">
-        <div>Mo<br>24</div>
-        <div class="active">Tu<br>25</div>
-        <div>We<br>26</div>
-        <div>Th<br>27</div>
-        <div>Fr<br>28</div>
-        <div>Sa<br>29</div>
-        <div>Su<br>30</div>
+        <div class="active">Mo<br>8</div>
+        <div>Tu<br>9</div>
+        <div>We<br>10</div>
+        <div>Th<br>11</div>
+        <div>Fr<br>12</div>
+        <div>Sa<br>13</div>
+        <div>Su<br>14</div>
     </div>
 
     <div class="summary">30 hrs / $285</div>
 
     <!-- Example days/shifts -->
-    <div class="day-label">Tue, Oct 22</div>
+    <div class="day-label">Tu, Dec 9</div>
     <div class="shift-card">
         <div class="shift-time">6am – 4pm</div>
         <div class="shift-details">Hospitalist</div>
@@ -193,7 +193,7 @@
         <button class="swap-btn" onclick="openSwapModal('10am – 5:30pm')">Request Swap</button>
     </div>
 
-    <div class="day-label">Wed, Oct 23</div>
+    <div class="day-label">Wed, Dec 10</div>
     <div class="shift-card">
         <div class="shift-time">7pm – 7am</div>
         <div class="shift-details">Emergency Physician</div>
@@ -202,7 +202,7 @@
         <button class="swap-btn" onclick="openSwapModal('10am – 5:30pm')">Request Swap</button>
     </div>
 
-    <div class="day-label">Thu, Oct 24</div>
+    <div class="day-label">Thu, Dec 11</div>
     <div class="shift-card">
         <div class="shift-time">11am – 9pm</div>
         <div class="shift-details">Physician Assistant</div>
@@ -249,7 +249,7 @@ async function sendSwapRequest() {
     const colleague = document.getElementById("colleague").value;
 
     const payload = {
-        "accessorIds": ["6914bfac955bde56d791c4ee"],
+        "accessorIds": ["69360c45f9e30c75abbe4e8c"],
         "channels": ["notificationCenter", "push"],
         "content": {
             "en_US": { "text": `New Shift Swap Requested: ${chosenShift} → ${colleague}` },
@@ -275,7 +275,7 @@ async function sendSwapRequest() {
         const res = await fetch("https://app.staffbase.com/api/branch/notifications", {
             method: "POST",
             headers: {
-                "Authorization":"Basic NjkxNGM3MzA0ZWE3Y2E1NmE2MDhjOGU2Ol0ta0t3KmU2b3phVG4zeG9SK2NoQVt7KnNeTHsmIXtrSSY5TCZze3AqeWssdDJELi1Rel1PYzJ7dGx0N0h+QjQ=",
+                "Authorization":"Basic NjkzNzAyNTRmOWM1OTEyOGQzMDBmODk4OiheTDEubXJ+LWZ5VnRlVylxWU5eZ0U7MlppeGVoQmpddDMxMTFXK0Nlcy5aTiRBLkJBeX1kK0wpNnhfcDdLe3g=",
                 "Content-Type":"application/json"
             },
             body: JSON.stringify(payload)
